@@ -1,6 +1,12 @@
 OAuth FCM Library
 =================
 
+[<img alt="crates.io" src="https://img.shields.io/crates/v/oauth_fcm">](https://crates.io/crates/oauth_fcm)
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/ywegel/oauth_fcm/pull_request.yml)
+[<img alt="docs.rs" src="https://img.shields.io/docsrs/oauth_fcm">](https://docs.rs/oauth_fcm)
+![GitHub License](https://img.shields.io/github/license/ywegel/oauth_fcm)
+
+
 This library is designed to simplify the process of sending Firebase Cloud Messaging (FCM) messages. It
 handles the OAuth token for you, ensuring that tokens are refreshed when expired, and provides
 a simple interface for sending both FCM data and notification messages.
