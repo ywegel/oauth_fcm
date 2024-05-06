@@ -154,7 +154,7 @@ fn create_signed_jwt(service_account_key: &ServiceAccountKey) -> Result<String, 
 
     let now = SystemTime::now()
         .duration_since(SystemTime::UNIX_EPOCH)
-        .unwrap_or(Duration::new(0, 0))
+        .expect("Clock moved backwards! The time is before UNIX EPOCH, this should not happen!")
         .as_secs();
 
     let claims = json!({
