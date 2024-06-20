@@ -1,5 +1,6 @@
 use rocket::{post, State};
 use serde::Serialize;
+use std::fs::File;
 
 use oauth_fcm::{create_shared_token_manager, send_fcm_message, SharedTokenManager};
 
@@ -35,7 +36,8 @@ async fn send_notification(token_manager: &State<SharedTokenManager>) -> Result<
 #[rocket::main]
 async fn main() {
     let shared_token_manager =
-        create_shared_token_manager("path/to/google/credentials.json").unwrap();
+        create_shared_token_manager(File::open("path/to/google/credentials.json").unwrap())
+            .unwrap();
 
     rocket::build()
         .manage(shared_token_manager)

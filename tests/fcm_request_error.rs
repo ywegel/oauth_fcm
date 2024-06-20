@@ -1,4 +1,5 @@
 use serde_json::json;
+use std::fs::File;
 
 use oauth_fcm::{create_shared_token_manager, send_fcm_message_with_url, FcmError, NetworkError};
 
@@ -35,8 +36,9 @@ async fn test_fcm_request_error() {
         )
         .create();
 
-    let shared_token_manager = create_shared_token_manager("tests/mock_credentials.json")
-        .expect("Failed to create SharedTokenManager");
+    let shared_token_manager =
+        create_shared_token_manager(File::open("tests/mock_credentials.json").unwrap())
+            .expect("Failed to create SharedTokenManager");
     // Force refresh with valid url
     shared_token_manager
         .lock()

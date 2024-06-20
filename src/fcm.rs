@@ -31,6 +31,8 @@ pub struct FcmNotification {
 /// # Example
 ///
 /// ```rust no_run
+/// use std::fs::File;
+///
 /// use oauth_fcm::{create_shared_token_manager, send_fcm_message, SharedTokenManager};
 ///
 /// # tokio_test::block_on(async {
@@ -42,7 +44,7 @@ pub struct FcmNotification {
 ///    title: "Test Title".to_string(),
 ///   body: "Test Body".to_string(),
 /// };
-/// let token_manager = create_shared_token_manager("path_to_google_credentials.json").expect("Failed to create SharedTokenManager");
+/// let token_manager = create_shared_token_manager(File::open("path_to_google_credentials.json").expect("Failed to open file")).expect("Failed to create SharedTokenManager");
 /// let project_id = "project_id";
 /// send_fcm_message(device_token, Some(notification), Some(data), &token_manager, project_id)
 ///     .await

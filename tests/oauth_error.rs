@@ -1,3 +1,5 @@
+use std::fs::File;
+
 use oauth_fcm::create_shared_token_manager;
 
 use crate::test_helpers::FcmBaseTest;
@@ -24,8 +26,9 @@ async fn failing_oauth_token_refresh() {
         .with_status(400)
         .create();
 
-    let shared_token_manager = create_shared_token_manager("tests/mock_credentials.json")
-        .expect("Failed to create SharedTokenManager");
+    let shared_token_manager =
+        create_shared_token_manager(File::open("tests/mock_credentials.json").unwrap())
+            .expect("Failed to create SharedTokenManager");
 
     let res = {
         let mut guard = shared_token_manager.lock().await;

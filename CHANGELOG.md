@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Changed
+- Accept FCM credentials as impl Read (#9)
 - Handle ```duration_since``` error differently in the token_manager. (#1)
 
 
