@@ -69,6 +69,10 @@ implementations for either [Rocket] or [Axum]. Feel free to open a merge request
 
 [Examples]: ./examples
 
+## Contributing
+
+Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on contributing. By contributing, you agree to license your code under the project's license.
+
 # License
 
 Licensed under [MIT license]
