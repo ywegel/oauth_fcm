@@ -6,6 +6,7 @@ pub use error::{FcmError, NetworkError};
 pub use fcm::{send_fcm_message, send_fcm_message_with_url, FcmNotification};
 pub use token_manager::{SharedTokenManager, TokenManager};
 
+use std::{fmt::Debug, io::Read};
 use tracing::{info, instrument};
 
 /// Creates a new `SharedTokenManager`.
@@ -24,17 +25,19 @@ use tracing::{info, instrument};
 /// # Example
 ///
 /// ```rust no_run
+/// use std::fs::File;
+///
 /// use oauth_fcm::create_shared_token_manager;
 ///
 /// # fn main() {
-/// let shared_token_manager = create_shared_token_manager("path_to_google_credentials.json").expect("Failed to create SharedTokenManager");
+/// let shared_token_manager = create_shared_token_manager(File::open("path_to_google_credentials.json").expect("Failed to open file")).expect("Failed to create SharedTokenManager");
 /// # }
 /// ```
-#[instrument(level = "info")]
-pub fn create_shared_token_manager(
-    google_credentials_location: &str,
+#[instrument(level = "info", skip_all)]
+pub fn create_shared_token_manager<T: Read + Debug>(
+    credentials: T,
 ) -> Result<SharedTokenManager, FcmError> {
     info!("Creating shared token manager");
-    let manager = TokenManager::new(google_credentials_location)?;
+    let manager = TokenManager::new(credentials)?;
     Ok(std::sync::Arc::new(tokio::sync::Mutex::new(manager)))
 }

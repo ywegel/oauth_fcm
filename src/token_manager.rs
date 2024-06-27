@@ -3,7 +3,11 @@ use jsonwebtoken::{encode, EncodingKey, Header};
 use reqwest::Client;
 use serde::Deserialize;
 use serde_json::json;
-use std::time::{Duration, Instant, SystemTime};
+use std::{
+    fmt::Debug,
+    io::Read,
+    time::{Duration, Instant, SystemTime},
+};
 use tracing::{debug, info, instrument};
 
 /// A thread-safe, shared reference to a `TokenManager`.
@@ -21,10 +25,12 @@ pub type SharedTokenManager = std::sync::Arc<tokio::sync::Mutex<TokenManager>>;
 /// # Example
 ///
 /// ```rust no_run
+/// use std::fs::File;
+///
 /// use oauth_fcm::TokenManager;
 ///
 /// # tokio_test::block_on(async {
-/// let mut token_manager = TokenManager::new("./tests/mock_credentials.json").expect("Failed to create TokenManager");
+/// let mut token_manager = TokenManager::new(File::open("./tests/mock_credentials.json").expect("Failed to open file")).expect("Failed to create TokenManager");
 /// let token = token_manager.get_token().await.expect("Failed to get token");
 /// # });
 /// ```
@@ -53,12 +59,11 @@ impl TokenManager {
     /// # Errors
     ///
     /// This function will return an error if the Google credentials could not be read or parsed.
-    #[instrument(level = "info")]
-    pub fn new(google_credentials_location: &str) -> Result<Self, FcmError> {
+    #[instrument(level = "info", skip_all)]
+    pub fn new<T: Read + Debug>(credentials: T) -> Result<Self, FcmError> {
         info!("Creating new TokenManager");
-        let service_account_key_json = std::fs::read_to_string(google_credentials_location)?;
-        let service_account_key: ServiceAccountKey =
-            serde_json::from_str(&service_account_key_json)?;
+
+        let service_account_key = serde_json::from_reader(credentials)?;
 
         Ok(TokenManager {
             token: None,

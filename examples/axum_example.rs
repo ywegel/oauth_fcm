@@ -1,6 +1,7 @@
 use axum::{extract::Extension, routing::post, Router};
 use oauth_fcm::{create_shared_token_manager, send_fcm_message, SharedTokenManager};
 use serde::Serialize;
+use std::fs::File;
 
 #[derive(Serialize)]
 struct MyData {
@@ -28,8 +29,9 @@ async fn send_notification(
 
 #[tokio::main]
 async fn main() {
-    let shared_token_manager = create_shared_token_manager("path/to/google/credentials.json")
-        .expect("Could not find credentials.json");
+    let shared_token_manager =
+        create_shared_token_manager(File::open("path/to/google/credentials.json").unwrap())
+            .expect("Could not find credentials.json");
 
     let app = Router::new()
         .route("/send", post(send_notification))
