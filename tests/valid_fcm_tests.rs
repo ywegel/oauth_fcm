@@ -1,12 +1,15 @@
-use serde_json::json;
-use std::{
-    fs::{self, File},
-    sync::Once,
+use std::fs::File;
+use std::fs::{
+    self,
 };
+use std::sync::Once;
 
-use oauth_fcm::{create_shared_token_manager, send_fcm_message_with_url};
+use oauth_fcm::create_shared_token_manager;
+use oauth_fcm::send_fcm_message_with_url;
+use serde_json::json;
 
-use crate::test_helpers::{FcmBaseTest, TestData};
+use crate::test_helpers::FcmBaseTest;
+use crate::test_helpers::TestData;
 
 mod test_helpers;
 

@@ -1,8 +1,11 @@
-use rocket::{post, State};
-use serde::Serialize;
 use std::fs::File;
 
-use oauth_fcm::{create_shared_token_manager, send_fcm_message, SharedTokenManager};
+use oauth_fcm::create_shared_token_manager;
+use oauth_fcm::send_fcm_message;
+use oauth_fcm::SharedTokenManager;
+use rocket::post;
+use rocket::State;
+use serde::Serialize;
 
 #[derive(Serialize)]
 struct MyData {
@@ -12,7 +15,8 @@ struct MyData {
 
 #[post("/send")]
 async fn send_notification(token_manager: &State<SharedTokenManager>) -> Result<String, String> {
-    // It is a good idea to load these from an .env file. Additionally, you can store them in a shared `Config` state.
+    // It is a good idea to load these from an .env file. Additionally, you can
+    // store them in a shared `Config` state.
     let device_token = "YOUR_DEVICE_TOKEN";
     let project_id = "YOUR_PROJECT_ID";
     let data = MyData {

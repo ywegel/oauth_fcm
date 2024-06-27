@@ -1,26 +1,36 @@
-use crate::error::{FcmError, NetworkError, ResultMapError};
-use jsonwebtoken::{encode, EncodingKey, Header};
+use std::fmt::Debug;
+use std::io::Read;
+use std::time::Duration;
+use std::time::Instant;
+use std::time::SystemTime;
+
+use jsonwebtoken::encode;
+use jsonwebtoken::EncodingKey;
+use jsonwebtoken::Header;
 use reqwest::Client;
 use serde::Deserialize;
 use serde_json::json;
-use std::{
-    fmt::Debug,
-    io::Read,
-    time::{Duration, Instant, SystemTime},
-};
-use tracing::{debug, info, instrument};
+use tracing::debug;
+use tracing::info;
+use tracing::instrument;
+
+use crate::error::FcmError;
+use crate::error::NetworkError;
+use crate::error::ResultMapError;
 
 /// A thread-safe, shared reference to a `TokenManager`.
 ///
 /// Recommended, if the `TokenManager` is accessed from multiple threads.
-/// A helper function for creating a `SharedTokenManager` can be found in [`lib.rs`](../lib.rs).
+/// A helper function for creating a `SharedTokenManager` can be found in
+/// [`lib.rs`](../lib.rs).
 pub type SharedTokenManager = std::sync::Arc<tokio::sync::Mutex<TokenManager>>;
 
 /// A manager for handling OAuth tokens.
 ///
-/// This struct is responsible for caching an internally lazily created OAuth token.
-/// Every time you get the token, it checks if it is expired and creates a new one if necessary.
-/// Each token is valid for one hour (the maximum provided by Google).
+/// This struct is responsible for caching an internally lazily created OAuth
+/// token. Every time you get the token, it checks if it is expired and creates
+/// a new one if necessary. Each token is valid for one hour (the maximum
+/// provided by Google).
 ///
 /// # Example
 ///
@@ -50,15 +60,18 @@ struct ServiceAccountKey {
 impl TokenManager {
     /// Creates a new `TokenManager`.
     ///
-    /// The recommended way to crate a `TokenManager` is to use the `create_shared_token_manager` function in [`lib.rs`](../lib.rs).
+    /// The recommended way to crate a `TokenManager` is to use the
+    /// `create_shared_token_manager` function in [`lib.rs`](../lib.rs).
     ///
     /// # Arguments
     ///
-    /// * `google_credentials_location` - A string slice that holds the path to the Google credentials JSON file.
+    /// * `google_credentials_location` - A string slice that holds the path to
+    ///   the Google credentials JSON file.
     ///
     /// # Errors
     ///
-    /// This function will return an error if the Google credentials could not be read or parsed.
+    /// This function will return an error if the Google credentials could not
+    /// be read or parsed.
     #[instrument(level = "info", skip_all)]
     pub fn new<T: Read + Debug>(credentials: T) -> Result<Self, FcmError> {
         info!("Creating new TokenManager");
@@ -74,8 +87,9 @@ impl TokenManager {
 
     /// Returns the current OAuth token.
     ///
-    /// This function checks if the current token is expired and refreshes it if necessary.
-    /// Users normally only need this function to get the token, as it handles the token expiration internally.
+    /// This function checks if the current token is expired and refreshes it if
+    /// necessary. Users normally only need this function to get the token,
+    /// as it handles the token expiration internally.
     ///
     /// # Errors
     ///
@@ -95,7 +109,8 @@ impl TokenManager {
 
     /// Checks if the current OAuth token is expired.
     ///
-    /// This function is used internally by `get_token` and is not typically needed by users.
+    /// This function is used internally by `get_token` and is not typically
+    /// needed by users.
     #[instrument(level = "debug", skip(self))]
     pub fn is_token_expired(&self) -> bool {
         self.expires_at
@@ -109,7 +124,8 @@ impl TokenManager {
 
     /// Refreshes the current OAuth token.
     ///
-    /// This function is used internally by `get_token` and is not typically needed by users.
+    /// This function is used internally by `get_token` and is not typically
+    /// needed by users.
     ///
     /// # Errors
     ///
@@ -123,11 +139,13 @@ impl TokenManager {
 
     /// Refreshes the current OAuth token with a custom auth server URL.
     ///
-    /// This function exists for testing purposes and is not typically needed by users.
+    /// This function exists for testing purposes and is not typically needed by
+    /// users.
     ///
     /// # Arguments
     ///
-    /// * `auth_server_url` - A string slice that holds the custom auth server URL.
+    /// * `auth_server_url` - A string slice that holds the custom auth server
+    ///   URL.
     ///
     /// # Errors
     ///
