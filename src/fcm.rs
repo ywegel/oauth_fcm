@@ -1,9 +1,14 @@
 use serde::Serialize;
 use serde_json::json;
-use tracing::{debug, error, info, instrument};
+use tracing::debug;
+use tracing::error;
+use tracing::info;
+use tracing::instrument;
 
-use crate::error::{NetworkError, ResultMapError};
-use crate::{FcmError, SharedTokenManager};
+use crate::error::NetworkError;
+use crate::error::ResultMapError;
+use crate::FcmError;
+use crate::SharedTokenManager;
 
 /// A wrapper for Firebase Cloud Messaging (FCM) notifications.
 pub struct FcmNotification {
@@ -13,16 +18,20 @@ pub struct FcmNotification {
 
 /// Sends a Firebase Cloud Messaging (FCM) message.
 ///
-/// This function sends an FCM message to the device with the provided device token. You can provide either a data payload or a notification payload, or both.
-/// It uses the provided `SharedTokenManager` to handle OAuth tokens.
+/// This function sends an FCM message to the device with the provided device
+/// token. You can provide either a data payload or a notification payload, or
+/// both. It uses the provided `SharedTokenManager` to handle OAuth tokens.
 ///
 /// # Arguments
 ///
 /// * `device_token` - The device token to send the notification to.
-/// * `notification` - An optional `FcmNotification` containing the title and body of the notification.
-/// * `data_payload` - Optional data represented as a Map. This can be any type that implements the `Serialize` trait.
+/// * `notification` - An optional `FcmNotification` containing the title and
+///   body of the notification.
+/// * `data_payload` - Optional data represented as a Map. This can be any type
+///   that implements the `Serialize` trait.
 /// * `token_manager` - A `SharedTokenManager` to handle OAuth tokens.
-/// * `project_id` - The ID of the Firebase project, where the device token is registered.
+/// * `project_id` - The ID of the Firebase project, where the device token is
+///   registered.
 ///
 /// # Errors
 ///
@@ -78,9 +87,11 @@ pub async fn send_fcm_message<T: Serialize>(
 
 /// Sends a Firebase Cloud Messaging (FCM) message to a specific URL.
 ///
-/// This function behaves exactly as `send_fcm`, but allows specifying a custom FCM URL.
+/// This function behaves exactly as `send_fcm`, but allows specifying a custom
+/// FCM URL.
 ///
-/// Normally, you would use `send_fcm` instead of this function. This is only useful for testing, such as for mocking the FCM URL.
+/// Normally, you would use `send_fcm` instead of this function. This is only
+/// useful for testing, such as for mocking the FCM URL.
 #[instrument(level = "debug", skip(data_payload, notification, token_manager))]
 pub async fn send_fcm_message_with_url<T: Serialize>(
     device_token: &str,

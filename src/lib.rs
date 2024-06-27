@@ -2,25 +2,35 @@ mod error;
 mod fcm;
 mod token_manager;
 
-pub use error::{FcmError, NetworkError};
-pub use fcm::{send_fcm_message, send_fcm_message_with_url, FcmNotification};
-pub use token_manager::{SharedTokenManager, TokenManager};
+use std::fmt::Debug;
+use std::io::Read;
 
-use std::{fmt::Debug, io::Read};
-use tracing::{info, instrument};
+pub use error::FcmError;
+pub use error::NetworkError;
+pub use fcm::send_fcm_message;
+pub use fcm::send_fcm_message_with_url;
+pub use fcm::FcmNotification;
+pub use token_manager::SharedTokenManager;
+pub use token_manager::TokenManager;
+use tracing::info;
+use tracing::instrument;
 
 /// Creates a new `SharedTokenManager`.
 ///
-/// This function is a helper for creating a `SharedTokenManager` from a given Google credentials location.
-/// It creates a new `TokenManager` and wraps it in an `Arc<Mutex<_>>` to allow shared, mutable access from multiple threads.
+/// This function is a helper for creating a `SharedTokenManager` from a given
+/// Google credentials location. It creates a new `TokenManager` and wraps it in
+/// an `Arc<Mutex<_>>` to allow shared, mutable access from multiple threads.
 ///
 /// # Arguments
 ///
-/// * `google_credentials_location` - A string slice that holds the path to the Google credentials JSON file.
+/// * `google_credentials_location` - A string slice that holds the path to the
+///   Google credentials JSON file.
 ///
 /// # Returns
 ///
-/// This function returns a `Result` that contains a `SharedTokenManager` if the `TokenManager` was created successfully, or an `FcmError` if the Google credentials could not be read or parsed.
+/// This function returns a `Result` that contains a `SharedTokenManager` if the
+/// `TokenManager` was created successfully, or an `FcmError` if the Google
+/// credentials could not be read or parsed.
 ///
 /// # Example
 ///

@@ -1,6 +1,8 @@
-/// Enum representing the possible errors that can occur in the Firebase Cloud Messaging (FCM) service.
+/// Enum representing the possible errors that can occur in the Firebase Cloud
+/// Messaging (FCM) service.
 ///
-/// This includes network errors related to OAuth and FCM requests, serialization errors, JWT encoding errors, and IO errors.
+/// This includes network errors related to OAuth and FCM requests,
+/// serialization errors, JWT encoding errors, and IO errors.
 ///
 /// Each variant contains a detailed error message for easy debugging.
 #[derive(thiserror::Error, Debug)]
@@ -24,7 +26,8 @@ pub enum FcmError {
     IoError(#[from] std::io::Error),
 }
 
-/// Enum representing the possible network errors that can occur when sending requests to the OAuth or FCM server.
+/// Enum representing the possible network errors that can occur when sending
+/// requests to the OAuth or FCM server.
 #[derive(thiserror::Error, Debug)]
 pub enum NetworkError {
     #[error("Failed to send request: {0}")]
