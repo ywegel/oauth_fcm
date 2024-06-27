@@ -8,7 +8,7 @@ with the correct label.
 1. If your change will be visible to crate consumers, create a GitHub issue and link it to your pull request.
 2. Fork and clone the repository.
 3. Create a new branch: `git checkout -b my-branch-name`, with a name that summarises your change.
-4. Make your change, format your changes with `cargo rustfmt` and add tests if possible.
+4. Make your change, format your changes with `cargo +nightly fmt` and add tests if possible.
 5. Add an entry to the *unreleased* section of CHANGELOG.md using this pattern if your change is visible to crate
    consumers: ```- Short summary of your change (#GitHub issue number)```.
    No changelog entry and GitHub issue is needed, if it is only an internal change or documentation
