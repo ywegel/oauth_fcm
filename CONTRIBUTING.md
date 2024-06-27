@@ -1,6 +1,6 @@
-## Contributing
+## How to contribute
 
-If you have questions ask them in the discussion are. If you have found bug or have a feature request, create an issue
+If you have questions, ask them in the Discussion tab on github. If you have found a bug or have a feature request, create an issue
 with the correct label.
 
 ## Making a change
