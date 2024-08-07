@@ -70,10 +70,7 @@ pub async fn send_fcm_message<T: Serialize>(
     project_id: &str,
 ) -> Result<(), FcmError> {
     info!("Sending FCM message to device: {}", device_token);
-    let url = format!(
-        "https://fcm.googleapis.com/v1/projects/{}/messages:send",
-        project_id
-    );
+    let url = format!("https://fcm.googleapis.com/v1/projects/{project_id}/messages:send");
 
     send_fcm_message_with_url(
         device_token,

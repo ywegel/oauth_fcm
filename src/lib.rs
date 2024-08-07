@@ -1,6 +1,17 @@
-mod error;
-mod fcm;
-mod token_manager;
+#![forbid(unsafe_code)]
+#![warn(
+    clippy::pedantic,
+    clippy::nursery,
+    clippy::tests_outside_test_module,
+    unused_qualifications,
+    non_ascii_idents
+)]
+#![allow(
+    clippy::missing_errors_doc,
+    clippy::missing_panics_doc,
+    clippy::module_name_repetitions,
+    clippy::future_not_send
+)]
 
 use std::fmt::Debug;
 use std::io::Read;
@@ -14,6 +25,10 @@ pub use token_manager::SharedTokenManager;
 pub use token_manager::TokenManager;
 use tracing::info;
 use tracing::instrument;
+
+mod error;
+mod fcm;
+mod token_manager;
 
 /// Creates a new `SharedTokenManager`.
 ///
