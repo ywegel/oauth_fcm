@@ -16,9 +16,6 @@
 use std::fmt::Debug;
 use std::io::Read;
 
-use tracing::info;
-use tracing::instrument;
-
 pub use error::FcmError;
 pub use error::NetworkError;
 pub use fcm::send_fcm_message;
@@ -26,6 +23,8 @@ pub use fcm::send_fcm_message_with_url;
 pub use fcm::FcmNotification;
 pub use token_manager::SharedTokenManager;
 pub use token_manager::TokenManager;
+use tracing::info;
+use tracing::instrument;
 
 mod error;
 mod fcm;
