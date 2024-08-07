@@ -1,3 +1,4 @@
+#![forbid(unsafe_code)]
 #![warn(
     unused_crate_dependencies,
     clippy::pedantic,
