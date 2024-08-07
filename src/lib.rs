@@ -10,7 +10,7 @@
     clippy::missing_errors_doc,
     clippy::missing_panics_doc,
     clippy::module_name_repetitions,
-    clippy::future_not_send,
+    clippy::future_not_send
 )]
 
 use std::fmt::Debug;
@@ -21,9 +21,9 @@ use tracing::instrument;
 
 pub use error::FcmError;
 pub use error::NetworkError;
-pub use fcm::FcmNotification;
 pub use fcm::send_fcm_message;
 pub use fcm::send_fcm_message_with_url;
+pub use fcm::FcmNotification;
 pub use token_manager::SharedTokenManager;
 pub use token_manager::TokenManager;
 
