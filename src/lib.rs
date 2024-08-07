@@ -1,6 +1,5 @@
 #![forbid(unsafe_code)]
 #![warn(
-    unused_crate_dependencies,
     clippy::pedantic,
     clippy::nursery,
     clippy::tests_outside_test_module,
