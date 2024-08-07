@@ -1,6 +1,6 @@
 [package]
 name = "oauth_fcm"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2021"
 authors = ["Yannick Wegel <dev@pizzaboi.de>"]
 description = "A library for sending both data and notification Firebase Cloud Messaging (FCM) messages"
