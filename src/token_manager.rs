@@ -78,7 +78,7 @@ impl TokenManager {
 
         let service_account_key = serde_json::from_reader(credentials)?;
 
-        Ok(TokenManager {
+        Ok(Self {
             token: None,
             expires_at: None,
             service_account_key,
@@ -114,12 +114,11 @@ impl TokenManager {
     #[instrument(level = "debug", skip(self))]
     pub fn is_token_expired(&self) -> bool {
         self.expires_at
-            .map(|expires_at| {
+            .map_or(true, |expires_at| {
                 let expired = expires_at <= Instant::now();
                 debug!("Token expired: {}", expired);
                 expired
             })
-            .unwrap_or(true)
     }
 
     /// Refreshes the current OAuth token.

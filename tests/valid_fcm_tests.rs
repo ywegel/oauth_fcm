@@ -1,7 +1,4 @@
 use std::fs::File;
-use std::fs::{
-    self,
-};
 use std::sync::Once;
 
 use oauth_fcm::create_shared_token_manager;
@@ -123,7 +120,7 @@ async fn successful_fcm_test_from_string() {
         .with_status(200)
         .create();
 
-    let creds = fs::read_to_string("tests/mock_credentials.json").unwrap();
+    let creds = std::fs::read_to_string("tests/mock_credentials.json").unwrap();
     let shared_token_manager =
         create_shared_token_manager(creds.as_bytes()).expect("Failed to create SharedTokenManager");
 
