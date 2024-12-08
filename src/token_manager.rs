@@ -44,6 +44,7 @@ pub type SharedTokenManager = std::sync::Arc<tokio::sync::Mutex<TokenManager>>;
 /// let token = token_manager.get_token().await.expect("Failed to get token");
 /// # });
 /// ```
+#[derive(Debug)]
 pub struct TokenManager {
     token: Option<String>,
     expires_at: Option<Instant>,
