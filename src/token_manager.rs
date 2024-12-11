@@ -44,7 +44,6 @@ pub type SharedTokenManager = std::sync::Arc<tokio::sync::Mutex<TokenManager>>;
 /// let token = token_manager.get_token().await.expect("Failed to get token");
 /// # });
 /// ```
-#[derive(Debug)]
 pub struct TokenManager {
     token: Option<String>,
     expires_at: Option<Instant>,
@@ -229,4 +228,14 @@ async fn get_access_token(
 
     debug!("Access token obtained");
     Ok(access_token_response)
+}
+
+impl Debug for TokenManager {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("TokenManager")
+            .field("token", &("...".to_string()))
+            .field("service_account_key", &("...".to_string()))
+            .field("expires_at", &self.expires_at)
+            .finish()
+    }
 }
