@@ -233,8 +233,8 @@ async fn get_access_token(
 impl Debug for TokenManager {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("TokenManager")
-            .field("token", &("...".to_string()))
-            .field("service_account_key", &("...".to_string()))
+            .field("token", &("[REDACTED]".to_string()))
+            .field("service_account_key", &("[REDACTED]".to_string()))
             .field("expires_at", &self.expires_at)
             .finish()
     }
